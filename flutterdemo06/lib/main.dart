@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'flutter demoaaa',
+      title: 'flutter demoaaaaaaa',
       theme: ThemeData.light(),
       home: SearchBarDemo(),
     );

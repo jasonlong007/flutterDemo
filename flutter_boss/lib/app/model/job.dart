@@ -39,7 +39,11 @@ class Job {
     mapdata.forEach((obj){
         Job jb=new Job(
           name: obj['name'],
-          cname: obj['cname']
+          cname: obj['cname'],
+          size: obj['size'],
+          salary:obj['salary'],
+          username: obj['username'],
+          title: obj['title']
         );
     });
   }
