@@ -10,6 +10,7 @@ import '../model/category.dart';
 import '../model/categoryGoodsList.dart';
 import '../provide/category_goods_list.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';//引入轻提示
 
 
 
@@ -227,6 +228,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
       CategoryGoodsListModel goodsList=CategoryGoodsListModel.fromJson(data);
       // 判断商品列表数据
       if (goodsList.data==null) {
+        
         Provide.value<CategoryGoodsListProvide>(context).getGoodsList([]);
       } else {
          Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodsList.data);
@@ -298,6 +300,7 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
                           ), 
                           loadMore: () async{//上拉加载回调请求函数
                               print('没有更多了.................');
+                             
                                // 内部类获取商品列表
                              _getMoreGoodsList();
                               
@@ -337,6 +340,15 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
       CategoryGoodsListModel goodsList=CategoryGoodsListModel.fromJson(data);
       // 判断商品列表数据
       if (goodsList.data==null) {
+         Fluttertoast.showToast(
+          msg: "已经到底了",
+          toastLength: Toast.LENGTH_SHORT,//提示样式长度
+          gravity: ToastGravity.CENTER,//提示出现的位置
+          timeInSecForIos: 1,//显示时间长度
+          backgroundColor: Colors.pink,//背景颜色
+          textColor: Colors.white,//文字颜色
+          fontSize: 16.0//文字大小
+        );
         Provide.value<ChildCategory>(context).changNoMore('没有更多了，亲');
       } else {
         Provide.value<CategoryGoodsListProvide>(context).getMoreGoodsList(goodsList.data);

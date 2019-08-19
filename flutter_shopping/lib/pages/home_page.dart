@@ -10,6 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
+// 引入路由静态化
+import '../routers/application.dart';
+
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 
@@ -131,7 +134,9 @@ Widget _wrapList(){
   if (hotGoodsList.length!=0) {
     List<Widget> listWidget=hotGoodsList.map((val){
      return InkWell(
-       onTap: (){},
+       onTap: (){
+       Application.router.navigateTo(context, "/detail?id=${val['goodsId']}");
+       },
        child: Container(
          width: ScreenUtil().setWidth(372),
          color: Colors.white,
@@ -230,7 +235,9 @@ class TopNavigator extends StatelessWidget {
 
   Widget _gridViewItemUI(BuildContext context,item){
      return InkWell(
-        onTap: (){print('点击了导航');},
+        onTap: (){
+          Application.router.navigateTo(context, '/test1');
+        },
         child:Container(
           color: Colors.white,
          child:Column(

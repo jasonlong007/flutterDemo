@@ -27,7 +27,7 @@ String noMoreText='';
     categoryId=id;//传入ID
     //  添加子类“全部”按钮
     BxMallSubDto all=BxMallSubDto();
-    all.mallSubId='00';
+    all.mallSubId='';
     all.mallCategoryId='00';
     all.mallSubName='全部';
     all.comments='null';
