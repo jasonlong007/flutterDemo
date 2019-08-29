@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import '../pages/details_page.dart';
 import '../pages/test/test1.dart';
+import '../pages/cart_page.dart';
 
 Handler detailsHander=Handler(
   handlerFunc: (BuildContext context,Map<String,List<String>> params){
@@ -15,5 +16,12 @@ Handler detailsHander=Handler(
 Handler test=Handler(
 handlerFunc: (BuildContext context,Map<String,List<String>> params){
     return HomePage1();
+  }
+);
+
+// 购物车路由
+Handler cartHander=Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>>params){
+    return CartPage();
   }
 );

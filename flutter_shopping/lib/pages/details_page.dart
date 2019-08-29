@@ -5,7 +5,7 @@ import '../pages/details_page/details_top_area.dart';
 import '../pages/details_page/details_explain.dart';
 import '../pages/details_page/details_tabbar.dart';
 import './details_page/details_web.dart';//商品详情html部分
-// import './details_page/detals_web_html.dart';
+import './details_page/details_bottom.dart';
 
 class DetailsPage extends StatelessWidget {
   final String goodsId;
@@ -31,16 +31,31 @@ class DetailsPage extends StatelessWidget {
         future:  _getBackInfo(context),
         builder: (context,snapshot){
           if (snapshot.hasData) {//如果有值的话
-            return Container(
-              child: ListView(
-                children: <Widget>[
-                  DatailsTopArea(),
-                  DetailsExplain(),
-                  DetailsTabbar(),
-                  DetailsWeb()
-                ],
-              ),
+             
+            return Stack(//stack组件是层叠组件，里面的每个子控件都是定位或者不定位定位的子组件都是被poistioned Widget进行包裹
+              children: <Widget>[
+                 Container(
+                    child: ListView(
+                      children: <Widget>[
+                        DatailsTopArea(),
+                        DetailsExplain(),
+                        DetailsTabbar(),
+                        DetailsWeb()
+                      ],
+                    ),
+                ),
+              //  底部导航
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: DetailsBottom(),
+                )
+
+              ],
+
             );
+            
+           
           }else{
             return Text('加载中...');
           }

@@ -8,6 +8,7 @@ import './provide/child_category.dart';
 import './provide/category_goods_list.dart';
 import './provide/details_info.dart';
 import 'package:fluro/fluro.dart';
+import './provide/cart.dart';
 
 // 路由配置文件
 import './routers/router_handler.dart';
@@ -20,6 +21,7 @@ void main() {
  var childCategory=ChildCategory();
  var categoryGoodsList=CategoryGoodsListProvide();
   var detailsInfoProvide=DetailsInfoProvide();
+   var cartProvide=CartProvide();
  var providers=Providers();
 
 
@@ -29,7 +31,8 @@ providers
 ..provide(Provider<Counter>.value(counter))
 ..provide(Provider<ChildCategory>.value(childCategory))
 ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsList))
-..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide));
+..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide))
+..provide(Provider<CartProvide>.value(cartProvide));
   runApp(ProviderNode(child: MyApp(),providers: providers,));
 }
  
