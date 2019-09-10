@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
 import '../provide/cart.dart';
+import '../pages/cart_page/cart_item.dart';
+import 'cart_page/cart_bottom.dart';
 
 
 class CartPage extends StatelessWidget {
@@ -15,17 +17,28 @@ class CartPage extends StatelessWidget {
         builder: (context,snapshot) {
           if (snapshot.hasData) {
             List cartList=Provide.value<CartProvide>(context).cartList;
-            return ListView.builder(
-              itemCount:cartList.length,
-              itemBuilder: (context,index) {
-                return Column(
-                  children: <Widget>[
-                    ListTile(title:Text(cartList[index].goodsName)),
-                    // ListTile(title:Text(cartList[index].count))
-                  ],
-                );
-             }
+            return Stack(
+              children: <Widget>[
+                  ListView.builder(
+                    itemCount:cartList.length,
+                    itemBuilder: (context,index) {
+                      return CartItem(cartList[index]);
+                  }
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: CartBottom(),
+                  )
+              ],
             );
+
+            // return ListView.builder(
+            //   itemCount:cartList.length,
+            //   itemBuilder: (context,index) {
+            //     return CartItem(cartList[index]);
+            //  }
+            // );
           } else {
              return Text('正在加载.........');
           }

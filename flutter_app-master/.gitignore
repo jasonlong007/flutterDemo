@@ -1,0 +1,7 @@
+local.properties
+*.iml
+gradlew
+.packages
+.flutter-plugins
+.idea/
+*.log

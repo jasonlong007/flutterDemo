@@ -18,7 +18,11 @@ class DetailsWeb extends StatelessWidget {
            return  Container(
               child: Html(
                 data: goodsDetails,
+                onLinkTap: (url){
+                  
+                },
               ),
+              
             );
          } else {
            return Container(

@@ -39,7 +39,8 @@ class CartProvide with ChangeNotifier {
           'goodsName':goodsName,
           'count':count,
           'price':price,
-          'images':images
+          'images':images,
+          'isCheck':true
         };
         tempList.add(newGoods);
         cartList.add(new CartInfoModel.fromJson(newGoods));
@@ -47,8 +48,8 @@ class CartProvide with ChangeNotifier {
 
       // 把字符串进行encode操作
       cartString=json.encode(tempList).toString();
-      print('字符串》》》》》》》》》》》》》》》》》》》》${cartString}');
-        print('数据模型》》》》》》》》》》》》》》》》》》》》${cartList}');
+      // print('字符串》》》》》》》》》》》》》》》》》》》》${cartString}');
+      //   print('数据模型》》》》》》》》》》》》》》》》》》》》${cartList}');
       prefs.setString('cartInfo', cartString);
      
       notifyListeners();
@@ -84,4 +85,11 @@ class CartProvide with ChangeNotifier {
       notifyListeners();
   }
 
+
+  //删除单个购物车商品
+  deleteOneGoods(String goodsId) async{
+     //  初始化持久化组件
+      SharedPreferences prefs= await SharedPreferences.getInstance();
+      // cartString=
+  } 
 }
