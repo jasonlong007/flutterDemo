@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../model/cartInfo.dart';
 import '../../pages/cart_page/cart_count.dart';
+import 'package:provide/provide.dart';
+import '../../provide/cart.dart';
 
 class CartItem extends StatelessWidget {
   // 设置接收参数
@@ -28,7 +30,7 @@ class CartItem extends StatelessWidget {
           _cartCheckBt(context,item),
           _cartImage(),
           _cartGoodsName(),
-          _cartPrice()
+          _cartPrice(context,item)
         ],
       ),
     );
@@ -40,7 +42,10 @@ class CartItem extends StatelessWidget {
        child: Checkbox(
          value: item.isCheck,
          activeColor: Colors.pink,
-         onChanged: (bool val){},
+         onChanged: (bool val){
+           item.isCheck=val;
+           Provide.value<CartProvide>(context).changeCheckState(item);
+         },
        ),
      );
   }
@@ -68,14 +73,14 @@ class CartItem extends StatelessWidget {
      child: Column(
        children: <Widget>[ 
          Text(item.goodsName),
-         CartCount(),
+         CartCount(item),
        ],
      ),
    );
   }
 
   // 内部方法：商品价格
-  Widget _cartPrice(){
+  Widget _cartPrice(context,item){
      return Container(
        width: ScreenUtil().setWidth(150),
        alignment: Alignment.centerRight,
@@ -84,7 +89,10 @@ class CartItem extends StatelessWidget {
            Text('￥${item.price}'),
            Container(
              child: InkWell(
-               onTap: (){},
+               onTap: (){
+                 print('点击删除了');
+                 Provide.value<CartProvide>(context).deleteOneGoods(item.goodsId);
+               },
                child: Icon(
                  Icons.delete_forever,
                  color: Colors.black26,

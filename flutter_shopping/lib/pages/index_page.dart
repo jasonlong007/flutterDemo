@@ -5,15 +5,11 @@ import './category_page.dart';
 import './home_page.dart';
 import './member_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provide/provide.dart';
+import '../provide/currentIndex.dart';
 
-
-class IndexPage extends StatefulWidget {
-  @override
-  _IndexPageState createState() => _IndexPageState();
-}
-
-class _IndexPageState extends State<IndexPage> {
-  final  List<BottomNavigationBarItem> bottomTabs=[
+class IndexPage extends StatelessWidget {
+    final  List<BottomNavigationBarItem> bottomTabs=[
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.home),
       title: Text('首页')
@@ -40,38 +36,30 @@ class _IndexPageState extends State<IndexPage> {
     MemberPage()
   ];
 
-  // 点击选择的索引
-  int currentIndex=0;
-  // 点击当前展示的page
-  var currentPage;
-  // 初始化
-  @override
-  void initState() {
-    // TODO: implement initState
-    currentPage=tabBodies[currentIndex];
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);//初始化尺寸
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,//设置底部tab样式
-        currentIndex: currentIndex,
-        items: bottomTabs,
-        onTap: (index){
-          setState(() {
-           currentIndex=index;
-           currentPage=tabBodies[index]; 
-          });
-        },
-      ),
-      body: IndexedStack(
-        index: currentIndex,
-        children: tabBodies,
-      ),
+      ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);//初始化尺寸
+
+    return Provide<CurrentIndexProvide>(
+      builder: (context,child,val){
+        // 获得持久化中Idex
+        var currentIndex=Provide.value<CurrentIndexProvide>(context).currentIndex;
+          return Scaffold(
+              backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
+              bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,//设置底部tab样式
+                currentIndex: currentIndex,
+                items: bottomTabs,
+                onTap: (index){
+                  Provide.value<CurrentIndexProvide>(context).changeIndex(index);
+                },
+              ),
+              body: IndexedStack(
+                index: currentIndex,
+                children: tabBodies,
+              ),
+            );
+      },
     );
   }
 }

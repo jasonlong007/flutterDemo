@@ -9,6 +9,8 @@ import './provide/category_goods_list.dart';
 import './provide/details_info.dart';
 import 'package:fluro/fluro.dart';
 import './provide/cart.dart';
+import './provide/currentIndex.dart';
+
 
 // 路由配置文件
 import './routers/router_handler.dart';
@@ -20,8 +22,10 @@ void main() {
  var counter=Counter();
  var childCategory=ChildCategory();
  var categoryGoodsList=CategoryGoodsListProvide();
-  var detailsInfoProvide=DetailsInfoProvide();
-   var cartProvide=CartProvide();
+ var detailsInfoProvide=DetailsInfoProvide();
+ var cartProvide=CartProvide();
+ var currentIndexProvide=CurrentIndexProvide();
+//  var currentIndexProvide=CurrentIndexProvide();
  var providers=Providers();
 
 
@@ -32,8 +36,9 @@ providers
 ..provide(Provider<ChildCategory>.value(childCategory))
 ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsList))
 ..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide))
-..provide(Provider<CartProvide>.value(cartProvide));
-  runApp(ProviderNode(child: MyApp(),providers: providers,));
+..provide(Provider<CartProvide>.value(cartProvide))
+..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
+  runApp(ProviderNode(child: MyApp(),providers: providers));
 }
  
 class MyApp extends StatelessWidget {
