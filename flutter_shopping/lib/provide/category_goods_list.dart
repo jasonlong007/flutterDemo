@@ -19,5 +19,9 @@ class CategoryGoodsListProvide with ChangeNotifier  {
     // 添加一个监听的方法
     notifyListeners();
   }
-  
+   //上拉加载列表
+    addGoodsList(List<CategoryGoodsListData> list){
+      goodsList.addAll(list);
+       notifyListeners();
+    }
 }

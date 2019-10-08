@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_shopping/model/categoryGoodsList.dart';
+import 'package:provide/provide.dart';
 import '../service/service_medthod.dart';
+import '../provide/child_category.dart';
+import '../provide/currentIndex.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import '../model/category.dart';
 
 // 引入路由静态化
 import '../routers/application.dart';
@@ -206,10 +211,6 @@ class SwiperDiy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    
-    print("设备像素密度：${ScreenUtil.pixelRatio}");
-    print("设备像素高：${ScreenUtil.screenHeight}");
-    print("设备宽：${ScreenUtil.screenWidth}");
-
     return Container(
        width: ScreenUtil.getInstance().setWidth(750),
        height: ScreenUtil.getInstance().setHeight(333),
@@ -237,10 +238,13 @@ class TopNavigator extends StatelessWidget {
   final List topNavigatorList;
   TopNavigator({Key key,this.topNavigatorList}):super(key:key);
 
-  Widget _gridViewItemUI(BuildContext context,item){
+  Widget _gridViewItemUI(BuildContext context,item,index){
+    // print('------------------${item}');
      return InkWell(
         onTap: (){
-          Application.router.navigateTo(context, '/test1');
+          // Application.router.navigateTo(context, '/test1');
+          // 去往商品详情页
+          _goCategory(context,index,item['mallCategoryId']);
         },
         child:Container(
           color: Colors.white,
@@ -255,13 +259,38 @@ class TopNavigator extends StatelessWidget {
      );
   }
 
+  // 点击导航条去往商品分类
+  // void _goCategory(context,int index,String categroyId) async{
+  //        await request('getCategory').then((val){
+  //          var data=json.decode(val.toString());
+  //          CategoryGoodsListModel category=CategoryGoodsListModel.fromJson(data);
+  //          List list=category.data;
+  //          Provide.value<ChildCategory>(context).changeCategory(categroyId,index);
+  //          Provide.value<ChildCategory>(context).getChildCategory(list[index].bxMallSubDto, categroyId);
+  //          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+  //        });
+  // }
+  void _goCategory(context,int index,String categroyId) async {
+    await request('getCategory').then((val) {
+      // print('-----------接口数据-------${val}');
+      var data = json.decode(val.toString());
+      //  print('-----------接口数据-------${data}');
+      CategoryModel category = CategoryModel.fromJson(data);
+      print('-----------接口数据category-------${category}');
+      List   list = category.data;
+      Provide.value<ChildCategory>(context).changeCategory(categroyId,index);
+      Provide.value<ChildCategory>(context).getChildCategory( list[index].bxMallSubDto,categroyId);
+      Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
      if(this.topNavigatorList.length>10){
       this.topNavigatorList.removeRange(10, this.topNavigatorList.length);
     }
-
+    var tempIndex=-1;
     return Container(
       height: ScreenUtil.getInstance().setWidth(320),
       
@@ -272,7 +301,8 @@ class TopNavigator extends StatelessWidget {
        crossAxisCount: 5,
        padding: EdgeInsets.all(5.0),
        children:topNavigatorList.map((item){
-         return _gridViewItemUI(context, item);
+         tempIndex++;
+         return _gridViewItemUI(context, item,tempIndex);
        }).toList(),
       ),
     );
